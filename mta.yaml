@@ -9,6 +9,7 @@ build-parameters:
   before-all:
     - builder: custom
       commands:
+        - npm cache clean --force
         - npx -p @sap/cds-dk cds build --production
 
 modules:
