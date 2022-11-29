@@ -14,9 +14,11 @@ build-parameters:
 modules:
   - name: samples-srv
     type: nodejs
-    path: gen/srv
+    path: .
     parameters:
       buildpack: nodejs_buildpack
+      disk-quota: 256M
+      memory: 256M
     build-parameters:
       builder: npm-ci
     provides:
