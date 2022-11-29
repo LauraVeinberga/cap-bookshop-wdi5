@@ -1,0 +1,30 @@
+---
+general:
+  buildTool: "npm"
+service:
+  buildToolVersion: "N14"
+stages:
+  Build:
+    mavenExecuteStaticCodeChecks: false
+    npmExecuteLint: false
+  Additional Unit Tests:
+    npmExecuteScripts: false
+    karmaExecuteTests: false
+  Acceptance:
+    cloudFoundryDeploy: true
+    cfApiEndpoint: "https://api.cf.us10-001.hana.ondemand.com"
+    cfOrg: "80bb6ee9trial"
+    cfSpace: "dev"
+    cfAppName: "bookshop"
+    cfCredentialsId: "cfdeploy"
+    npmExecuteEndToEndTests: false
+  Compliance:
+    sonarExecuteScan: false
+  Release:
+    cloudFoundryDeploy: false
+    tmsUpload: false
+steps:
+  artifactPrepareVersion:
+    versioningType: "cloud_noTag"
+  cloudFoundryDeploy:
+    mtaDeployParameters: "-f --version-rule ALL"
