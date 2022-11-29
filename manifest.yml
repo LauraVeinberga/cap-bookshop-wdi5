@@ -1,4 +1,4 @@
 ---
 applications:
-- name: qweasdyxc123
+- name: newapptest1234never
   health-check-type: process
