@@ -10,7 +10,7 @@ const books = Vue.createApp ({
         list: [],
         book: undefined,
         order: { quantity:1, succeeded:'', failed:'' },
-        user: undefined
+        user: {}
       }
     },
 
@@ -42,48 +42,20 @@ const books = Vue.createApp ({
             }
         },
 
-        async login() {
+        async fetchUserInfo() {
             try {
-                const { data:user } = await axios.post('/user/login',{})
-                if (user.id !== 'anonymous') books.user = user
+                const { data } = await axios.get('/user/me')
+                books.user = data
             } catch (err) { books.user = { id: err.message } }
-        },
-
-        async getUserInfo() {
-            try {
-                const { data:user } = await axios.get('/user/me')
-                if (user.id !== 'anonymous') books.user = user
-            } catch (err) { books.user = { id: err.message } }
-        },
+        }
     }
-}).mount('#app')
+}).mount("#app")
 
-books.getUserInfo()
-books.fetch() // initially fill list of books
+// initially fill list of books
+books.fetch()
 
+books.fetchUserInfo()
 document.addEventListener('keydown', (event) => {
     // hide user info on request
     if (event.key === 'u')  books.user = undefined
 })
-
-axios.interceptors.request.use(csrfToken)
-function csrfToken (request) {
-    if (request.method === 'head' || request.method === 'get') return request
-    if ('csrfToken' in document) {
-        request.headers['x-csrf-token'] = document.csrfToken
-        return request
-    }
-    return fetchToken().then(token => {
-        document.csrfToken = token
-        request.headers['x-csrf-token'] = document.csrfToken
-        return request
-    }).catch(_ => {
-        document.csrfToken = null // set mark to not try again
-        return request
-    })
-
-    function fetchToken() {
-        return axios.get('/', { headers: { 'x-csrf-token': 'fetch' } })
-        .then(res => res.headers['x-csrf-token'])
-    }
-}
