@@ -1,6 +1,7 @@
 /**
  * Exposes user information
  */
+@requires: 'authenticated-user'
 service UserService {
   /**
    * The current user
@@ -11,5 +12,4 @@ service UserService {
     tenant : String;
   }
 
-  action login() returns me;
 }
