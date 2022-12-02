@@ -1,40 +1,31 @@
 {
-  "name": "@capire/bookshop",
-  "version": "1.0.0",
-  "description": "A simple self-contained bookshop service.",
-  "files": [
-    "app",
-    "srv",
-    "db",
-    "index.cds",
-    "index.js"
-  ],
-  "dependencies": {
-    "@sap/cds": "^6.3.2",
-    "express": "^4.17.1",
-    "passport": ">=0.4.1",
-    "hdb": "^0.19.0",
-    "@sap/xssec": "^3"
-  },
-  "scripts": {
-    "genres": "cds serve test/genres.cds",
-    "start": "cds run",
-    "watch": "cds watch"
-  },
-  "cds": {
-    "requires": {
-      "db": "sql",
-      "[production]": {
-        "db": {
-          "kind": "hana-cloud"
-        },
-        "auth": {
-          "kind": "xsuaa"
-        },
-        "approuter": {
-          "kind": "cloudfoundry"
-        }
-      }
-    }
-  }
+    "name": "@capire/samples",
+    "version": "2.0.0",
+    "description": "A monorepo with several samples for CAP.",
+    "repository": "https://github.com/sap-samples/cloud-cap-samples.git",
+    "author": "daniel.hutzel@sap.com",
+    "dependencies": {
+        "@sap/cds": ">=5.5.3",
+        "@sap/cds-odata-v2-adapter-proxy": "^1.9.0"
+    },
+    "workspaces": [
+        "./bookshop",
+        "./fiori"
+    ],
+    "devDependencies": {
+        "axios": "^1",
+        "chai": "^4.3.4",
+        "chai-as-promised": "^7.1.1",
+        "chai-subset": "^1.6.0",
+        "semver": "^7",
+        "sqlite3": "^5"
+    },
+    "scripts": {
+        "cleanup": "rm -rf node_modules && rm -rf */node_modules && rm -rf */*/node_modules",
+        "bookshop": "cds watch bookshop",
+        "fiori": "cds watch fiori",
+        "start": "cds watch fiori"
+    },
+    "license": "SAP SAMPLE CODE LICENSE",
+    "private": true
 }
